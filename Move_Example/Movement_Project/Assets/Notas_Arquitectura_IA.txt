@@ -1,0 +1,43 @@
+Arquitectura Enemigo
+
+1 Normal
+1 Mini Boss
+1 Jefe
+
+
+Clase Principal Enemy
+
+public enum StateEnemy
+public StateEnemy curState
+
+public int maxHealt
+public int attackPower
+public int defense
+public int moveSpeed
+public Tag tagEnemy
+
+GameObject target
+
+public Pathfinding.AIDestinationSetter destination
+public Pathfinding.AILerp ctrlMovement
+
+public Rigidbody rbd3D
+
+public LayerMask playerMask
+public Transform posSensorViewPlayer
+public Collider[] hitColliders
+public GameObject pointMove
+public float radiusSensorPos
+
+
+//Metodos
+
+public virtual void InitEnemy()
+
+public virtual void BehaviourEnemy()
+
+void Update()
+
+void FixedUpdate()
+
+public void SensorsDetection()
