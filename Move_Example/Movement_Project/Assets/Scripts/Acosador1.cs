@@ -1,28 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Pathfinding;
 
-public class Acosador1 : MonoBehaviour
+public class Acosador1 : BaseEnemy
 {
-    AIDestinationSetter destination;
-
+    [Header("Atributos exclusivos de Acosador1")]
     public Transform[] waypoints;
 
     public int indexWaypoints = 0;
 
     public float currentDistance = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    public override void InitEnemy()
     {
-        destination = GetComponent<AIDestinationSetter>();
+        base.InitEnemy();
         destination.target = waypoints[indexWaypoints];
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void BehaviourEnemy()
     {
+        //Comportamiento básico o esencial
+        base.BehaviourEnemy();
+
+        //Comportamiento exclusivo del Acosador1
         currentDistance = Vector3.Distance(transform.position, waypoints[indexWaypoints].position);
         if(currentDistance < 1f)
         {
