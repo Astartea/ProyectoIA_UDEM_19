@@ -499,8 +499,9 @@ GameObject:
   - component: {fileID: 424603822}
   - component: {fileID: 424603821}
   - component: {fileID: 424603823}
+  - component: {fileID: 424603824}
   m_Layer: 10
-  m_Name: VCam_Game
+  m_Name: Player_Cam_Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -580,6 +581,20 @@ MonoBehaviour:
   minX: 0.1
   maxY: 0.9
   minY: 0.1
+--- !u!136 &424603824
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424603820}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.24
+  m_Height: 0.91715884
+  m_Direction: 1
+  m_Center: {x: -7.333961e-14, y: -0.25642055, z: -3.5634873e-10}
 --- !u!1 &426603013
 GameObject:
   m_ObjectHideFlags: 0

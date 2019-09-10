@@ -8,26 +8,26 @@ public class BaseEnemy : MonoBehaviour, IDamage
     //Los diferentes estados de los enemigos
     public enum StateEnemy
     {
-        Walk, Attack, Dead, 
+        Walk, Attack, Dead,
     }
     [Header("Status enemy")]
     public StateEnemy curState; //El estado actual del enemigo
 
     [Header("Basic Elements")]
-    [Range(0,1000)]
+    [Range(0, 1000)]
     public int maxHealth;       //El valor maximo de vida
     [HideInInspector]
     public int curHealth;       //El valor actual de vida
-    [Range(1,500)]
+    [Range(1, 500)]
     public int attackPower;     //Poder de ataque del enemigo
     [Range(1, 100)]
     public int defense;         //Cantidad de defensa
-    [Range(1,50)]
+    [Range(1, 50)]
     public int moveSpeed;       //Velocidad de movimiento
 
     [Tooltip("Distancia minima a la que debe acercarse el enemmigo a su actual target")]
     [Range(1, 100)]
-    public float minDistance;   
+    public float minDistance;
 
     [HideInInspector]
     public GameObject curTarget;          //El objetivo actual del enemigo
@@ -44,7 +44,7 @@ public class BaseEnemy : MonoBehaviour, IDamage
     public LayerMask playerMask;    //El layer del jugador
     public Transform posSensorView; //Posicion del sensor de deteccion
     public Collider[] hitCollider; //Arreglo de collisionadores para saber que detectamos
-    [Range(0.5f,50f)]
+    [Range(0.5f, 50f)]
     public float radiusDetection;   //Radio de deteccion
 
     // Start is called before the first frame update
@@ -68,7 +68,7 @@ public class BaseEnemy : MonoBehaviour, IDamage
         destination.target = curTarget.transform;
 
         //Resetea la vida
-        curHealth = maxHealth; 
+        curHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -101,20 +101,34 @@ public class BaseEnemy : MonoBehaviour, IDamage
         int i = 0;
         while (i < hitCollider.Length)
         {
-            curTarget = hitCollider[0].gameObject; //Asignar el objeto jugador
+            if (hitCollider[i].gameObject.name == "Player_Cam_Game")
+            {
+                Debug.LogError("DEtecte al jugador");
+                curTarget = hitCollider[i].gameObject; //Asignar el objeto jugador
+                curState = StateEnemy.Attack;
+                destination.target = curTarget.transform;
+            }
             i++;
+        }
+
+        if (hitCollider.Length < 1)
+        {
+            curState = StateEnemy.Walk;
         }
     }
 
     //El comportamiento especifico de cada enemigo
     public virtual void BehaviourEnemy()
     {
-        float actualDistance = Vector3.Distance(transform.position, curTarget.transform.position);
-
-        if(actualDistance <= minDistance)
+        if (curState == StateEnemy.Attack)
         {
-            curState = StateEnemy.Attack;
-            AttackMode();
+            float actualDistance = Vector3.Distance(transform.position, curTarget.transform.position);
+
+            if (actualDistance <= minDistance)
+            {
+
+                AttackMode();
+            }
         }
     }
 
@@ -126,7 +140,7 @@ public class BaseEnemy : MonoBehaviour, IDamage
     public virtual void TakeDamage(int totalDamage)
     {
         //Si el enemigo esta muerto
-        if(curState == StateEnemy.Dead)
+        if (curState == StateEnemy.Dead)
             return; //No hagas nada, termina la funcion aqui
 
         //Restar el total de daño a la vida actual

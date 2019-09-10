@@ -22,12 +22,15 @@ public class Acosador1 : BaseEnemy
         //Comportamiento básico o esencial
         base.BehaviourEnemy();
 
-        //Comportamiento exclusivo del Acosador1
-        currentDistance = Vector3.Distance(transform.position, waypoints[indexWaypoints].position);
-        if(currentDistance < 1f)
+        if (curState == StateEnemy.Walk)
         {
-            indexWaypoints = (indexWaypoints + 1) % waypoints.Length;
-            destination.target = waypoints[indexWaypoints];
+            //Comportamiento exclusivo del Acosador1
+            currentDistance = Vector3.Distance(transform.position, waypoints[indexWaypoints].position);
+            if (currentDistance < 1f)
+            {
+                indexWaypoints = (indexWaypoints + 1) % waypoints.Length;
+                destination.target = waypoints[indexWaypoints];
+            }
         }
     }
 }
