@@ -26,8 +26,10 @@ public class EnemyBase : MonoBehaviour, ITakeDamage
     [HideInInspector]
     public GameObject curTarget;   //El objetivo actual del enemigo
 
-    AIDestinationSetter destinationSetter;
-    AILerp ctrlMovement;
+    [HideInInspector]
+    public AIDestinationSetter destinationSetter;
+    [HideInInspector]
+    public AILerp ctrlMovement;
 
     Rigidbody rbd3D;
 
@@ -53,7 +55,16 @@ public class EnemyBase : MonoBehaviour, ITakeDamage
 
     public virtual void InitEnemy()
     {
-        //se inicializa el enemigo
+        rbd3D = GetComponent<Rigidbody>();
+        hitCollider = null;
+
+        ctrlMovement = GetComponent<AILerp>();
+        ctrlMovement.speed = moveSpeed;
+        curTarget = GameObject.FindGameObjectWithTag("Player");
+
+        destinationSetter = GetComponent<AIDestinationSetter>();
+        destinationSetter.target = curTarget.transform;
+
         curHealth = maxHealth;
     }
 
@@ -64,11 +75,35 @@ public class EnemyBase : MonoBehaviour, ITakeDamage
 
     public void SensorsDetection()
     {
-
+        hitCollider = Physics.OverlapSphere
+        (posSensorViewPlayer.position, radiusDetection, playerMask);
+    
+        int i = 0;
+        while(i < hitCollider.Length)
+        {
+            if(hitCollider[i].gameObject.name == "Player_Cam_Game")
+            {
+                curTarget = hitCollider[i].gameObject;
+                curState = EnemyStatus.ATTACK;
+                destinationSetter.target = curTarget.transform;
+            }
+            
+            i++;
+        }
     }
 
     public void ReciveDamage(int totalDamage)
     {
+        if(curState == EnemyStatus.DEAD)
+        {
+            return;
+        }
+
         curHealth -= (totalDamage - defense);
+
+        if(curHealth < 1)
+        {
+            curState = EnemyStatus.DEAD;
+        }
     }
 }
