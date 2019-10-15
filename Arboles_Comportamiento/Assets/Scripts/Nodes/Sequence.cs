@@ -12,7 +12,7 @@ public class Sequence : Node {
     }
 
     /* If any child node returns a failure, the entire node fails. Whence all 
-     * nodes return a success, the node reports a success. */
+     * nodes return a success, the node reports a success.  */
     public override NodeStates Evaluate() {
         bool anyChildRunning = false;
         

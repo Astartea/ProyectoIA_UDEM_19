@@ -54,10 +54,20 @@ public class MathTree : MonoBehaviour {
 
         m_valueLabel.text = m_currentValue.ToString();
 
+       // m_rootNode.Evaluate();
+
+        //UpdateBoxes();
+	}
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
         m_rootNode.Evaluate();
 
         UpdateBoxes();
-	}
+    }
 
     private void UpdateBoxes() {
         /** Update root node box */
